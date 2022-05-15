@@ -11,6 +11,7 @@ export default defineConfig({
     inject({
       $: 'jquery',
       jQuery: 'jquery',
+      CodeMirror: 'codemirror',
     }),
   ],
   resolve: {

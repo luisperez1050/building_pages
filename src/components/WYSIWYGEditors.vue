@@ -15,6 +15,7 @@
     </div>
     <div class="summernote">
       <div id="summernote"></div>
+      <button @click="checkHtml()">Check HTML</button>
     </div>
   </div>
 </template>
@@ -28,16 +29,8 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'summernote/dist/summernote.min.css';
-import  * as summernote from 'summernote';
+import { summernote } from 'summernote';
 
-
-// $(".summernote").summernote({
-//     height: 150,   //set editable area's height
-//     codemirror: { // codemirror options
-//       CodeMirrorConstructor: CodeMirror,
-//       theme: 'monokai'
-//     }
-// });
 export default {
   name: 'app',
   components: {
@@ -46,9 +39,18 @@ export default {
   },
   mounted(){
     console.log('mounted', summernote, jQuery, $);
-    const test = $("#summernote").summernote();
-    const html = test.summernote('code');
-    console.log('test', test, html);
+    $("#summernote").summernote({
+      height: 150,
+      CodeMirrorConstructor: CodeMirror,
+      theme: 'monokai'
+    });
+
+  },
+  methods: {
+    checkHtml() {
+      const html = $("#summernote").summernote('code');
+      console.log('html', html);
+    }
   },
 }
 </script>
