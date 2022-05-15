@@ -13,7 +13,7 @@
       <p>Quill</p>
       <QuillEditor theme="snow" />
     </div>
-    <div class="summernote">
+    <div class="summernote" @change="checkHtml()">
       <div id="summernote"></div>
       <button @click="checkHtml()">Check HTML</button>
     </div>
@@ -37,14 +37,28 @@ export default {
     'editor': Editor,
     QuillEditor
   },
+  data() {
+    return {
+      tinymceHtml: '',
+      quilleditorHtml: '',
+      summernoteHtml: '',
+    };
+  },
   mounted(){
-    console.log('mounted', summernote, jQuery, $);
     $("#summernote").summernote({
       height: 150,
       CodeMirrorConstructor: CodeMirror,
-      theme: 'monokai'
+      theme: 'monokai',
+      callbacks: {
+        onChange: () => {
+          this.checkHtml();
+        }
+      },
     });
-
+    // add listener here and call checkthml
+    $("#summernote").mouseleave( () => {
+      console.log('hey');
+    });
   },
   methods: {
     checkHtml() {
