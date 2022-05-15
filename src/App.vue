@@ -1,6 +1,5 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import WYSIWYGEditors from './components/WYSIWYGEditors.vue'
 </script>
 
