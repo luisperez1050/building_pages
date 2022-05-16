@@ -37,10 +37,8 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import $ from 'jquery';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'summernote/dist/summernote.min.css';
-import { summernote } from 'summernote';
+import 'summernote/dist/summernote-lite.css';
+import { summernote } from 'summernote/dist/summernote-lite.js';
 
 export default {
   name: 'app',
@@ -58,7 +56,7 @@ export default {
   mounted(){
     $("#summernote").summernote({
       height: 100,
-      CodeMirrorConstructor: CodeMirror,
+      // CodeMirrorConstructor: CodeMirror,
       theme: 'monokai',
       callbacks: {
         onChange: () => {
@@ -69,9 +67,9 @@ export default {
     $("#summernote").summernote('code', this.summernoteHtml);
   },
   updated() {
-    localStorage.setItem('tinyMCEStored', this.tinymceHtml);
-    localStorage.setItem('quillStored', this.quilleditorHtml);
-    localStorage.setItem('summernoteStored', this.summernoteHtml);
+    localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
+    localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
+    localStorage.setItem('summernoteStored', this.summernoteHtml ?? '');
   },
   methods: {
     checkHtml() {
