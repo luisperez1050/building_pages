@@ -9,12 +9,12 @@ export default defineConfig({
   base: '/pages/',
   plugins: [
     vue(),
-    // inject({
-    //   $: 'jquery',
-    //   jQuery: 'jquery',
-    //   // CodeMirror: 'codemirror',
-    //   exclude: 'node_modules/**',
-    // }),
+    inject({
+      $: 'jquery',
+      jQuery: 'jquery',
+      CodeMirror: 'codemirror',
+      exclude: 'node_modules/**',
+    }),
   ],
   resolve: {
     alias: {
