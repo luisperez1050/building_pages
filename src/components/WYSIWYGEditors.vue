@@ -3,19 +3,30 @@
     <div class="tiny-mce">
       <p>TinyMCE</p>
       <editor
+        v-model="tinymceHtml"
+        :initial-value="tinymceHtml"
         api-key="no-api-key"
         :init="{
           plugins: 'lists link image table code help wordcount'
         }"
       />
+      <div class="display-html" v-html="tinymceHtml"></div>
     </div>
     <div class="quill">
       <p>Quill</p>
-      <QuillEditor theme="snow" />
+      <QuillEditor 
+        v-model:content="quilleditorHtml"
+        :content="quilleditorHtml"
+        :options="{ height: 150 }"
+        contentType="html"
+        theme="snow"
+      />
+      <div class="display-html" v-html="quilleditorHtml"></div>
     </div>
-    <div class="summernote" @change="checkHtml()">
+    <div class="summernote">
+      <p>Summernote</p>
       <div id="summernote"></div>
-      <button @click="checkHtml()">Check HTML</button>
+      <div class="display-html" v-html="summernoteHtml"></div>
     </div>
   </div>
 </template>
@@ -39,14 +50,14 @@ export default {
   },
   data() {
     return {
-      tinymceHtml: '',
-      quilleditorHtml: '',
-      summernoteHtml: '',
+      tinymceHtml: '<em> Emphasis </em>',
+      quilleditorHtml: '<strong> Strong </strong>',
+      summernoteHtml: '<ol><li> ordered list </li></ol>',
     };
   },
   mounted(){
     $("#summernote").summernote({
-      height: 150,
+      height: 100,
       CodeMirrorConstructor: CodeMirror,
       theme: 'monokai',
       callbacks: {
@@ -55,27 +66,35 @@ export default {
         }
       },
     });
-    // add listener here and call checkthml
-    $("#summernote").mouseleave( () => {
-      console.log('hey');
-    });
+    $("#summernote").summernote('pasteHTML', this.summernoteHtml);
   },
   methods: {
     checkHtml() {
       const html = $("#summernote").summernote('code');
-      console.log('html', html);
+      this.summernoteHtml = html;
     }
   },
 }
 </script>
 <style>
-  .tiny-mce {
+  .tiny-mce,
+  .quill,
+  .summernote,
+  .display-html {
     margin-top: 20px;
   }
-  .quill {
-    margin-top: 20px;
+  .display-html {
+    background-color: var(--vt-c-black-mute);
+    border: 1px solid hsla(160, 100%, 37%, 1);
+    border-radius: 4px;
+    box-shadow: 0px 0px 6px hsla(160, 100%, 37%, 1);
+    color: var(--vt-c-white-soft);
+    padding: 5px 8px;
   }
-  .summernote {
-    margin-top: 20px;
+  .tox-notifications-container {
+    display: none;
+  }
+  .ql-container {
+    height: 100px;
   }
 </style>

@@ -11,9 +11,10 @@ defineProps({
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a target="_blank" href="https://vitejs.dev/">Vite</a> +
-      <a target="_blank" href="https://vuejs.org/">Vue 3</a>.
+      Documentation located in the following links
+      <a target="_blank" href="https://www.tiny.cloud/docs/integrations/vue/">TinyMCE</a> +
+      <a target="_blank" href="https://vueup.github.io/vue-quill/guide/usage.html">Quill</a> +
+      <a target="_blank" href="https://summernote.org/getting-started/">Summernote</a>
     </h3>
   </div>
 </template>
