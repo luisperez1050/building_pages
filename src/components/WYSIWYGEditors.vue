@@ -50,9 +50,9 @@ export default {
   },
   data() {
     return {
-      tinymceHtml: '<em> Emphasis </em>',
-      quilleditorHtml: '<strong> Strong </strong>',
-      summernoteHtml: '<ol><li> ordered list </li></ol>',
+      tinymceHtml: localStorage.getItem('tinyMCEStored'),
+      quilleditorHtml: localStorage.getItem('quillStored'),
+      summernoteHtml: localStorage.getItem('summernoteStored'),
     };
   },
   mounted(){
@@ -67,6 +67,11 @@ export default {
       },
     });
     $("#summernote").summernote('pasteHTML', this.summernoteHtml);
+  },
+  updated() {
+    localStorage.setItem('tinyMCEStored', this.tinymceHtml);
+    localStorage.setItem('quillStored', this.quilleditorHtml);
+    localStorage.setItem('summernoteStored', this.summernoteHtml);
   },
   methods: {
     checkHtml() {
