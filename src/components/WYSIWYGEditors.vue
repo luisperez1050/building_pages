@@ -66,7 +66,7 @@ export default {
         }
       },
     });
-    $("#summernote").summernote('pasteHTML', this.summernoteHtml);
+    $("#summernote").summernote('code', this.summernoteHtml);
   },
   updated() {
     localStorage.setItem('tinyMCEStored', this.tinymceHtml);
