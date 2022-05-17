@@ -36,7 +36,7 @@ import Editor from '@tinymce/tinymce-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import $ from 'jquery';
+import $ from 'jquery/dist/jquery';
 import 'summernote/dist/summernote-lite.css';
 import { summernote } from 'summernote/dist/summernote-lite.js';
 
