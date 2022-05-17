@@ -23,11 +23,6 @@
       />
       <div class="display-html" v-html="quilleditorHtml"></div>
     </div>
-    <div class="summernote">
-      <p>Summernote</p>
-      <div id="summernote"></div>
-      <div class="display-html" v-html="summernoteHtml"></div>
-    </div>
   </div>
 </template>
 
@@ -35,10 +30,6 @@
 import Editor from '@tinymce/tinymce-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
-import $ from 'jquery';
-import 'summernote/dist/summernote-lite.css';
-import { summernote } from 'summernote/dist/summernote-lite.js';
 
 export default {
   name: 'app',
@@ -50,44 +41,17 @@ export default {
     return {
       tinymceHtml: localStorage.getItem('tinyMCEStored'),
       quilleditorHtml: localStorage.getItem('quillStored'),
-      summernoteHtml: localStorage.getItem('summernoteStored'),
     };
-  },
-  created(){
-    // let doc = document.createElement('script');  
-    // doc.setAttribute('src',"https://code.jquery.com/jquery-3.5.1.min.js");
-    // document.head.appendChild(doc);
-  },
-  mounted(){
-    $("#summernote").summernote({
-      height: 100,
-      CodeMirrorConstructor: CodeMirror,
-      theme: 'monokai',
-      callbacks: {
-        onChange: () => {
-          this.checkHtml();
-        }
-      },
-    });
-    $("#summernote").summernote('code', this.summernoteHtml);
   },
   updated() {
     localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
-    localStorage.setItem('summernoteStored', this.summernoteHtml ?? '');
-  },
-  methods: {
-    checkHtml() {
-      const html = $("#summernote").summernote('code');
-      this.summernoteHtml = html;
-    }
   },
 }
 </script>
 <style>
   .tiny-mce,
   .quill,
-  .summernote,
   .display-html {
     margin-top: 20px;
   }

@@ -5,26 +5,18 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 5050",
-    "deploy": "node scripts/gh-pages-deploy.js",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^4.0.7",
     "@vueup/vue-quill": "^1.0.0-beta.8",
-    "bootstrap": "^4.4.1",
-    "codemirror": "^5.58.2",
-    "jquery": "^3.5.0",
-    "popper.js": "^1.16.1",
-    "summernote": "^0.8.16",
     "vue": "^3.2.33"
   },
   "devDependencies": {
-    "@rollup/plugin-inject": "^4.0.4",
     "@vitejs/plugin-vue": "^2.3.1",
     "@vue/eslint-config-prettier": "^7.0.0",
     "eslint": "^8.5.0",
     "eslint-plugin-vue": "^8.2.0",
-    "execa": "latest",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.5.1",
     "sass": "^1.26.2",

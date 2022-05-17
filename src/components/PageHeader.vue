@@ -13,8 +13,7 @@ defineProps({
     <h3>
       Documentation located in the following links
       <a target="_blank" href="https://www.tiny.cloud/docs/integrations/vue/">TinyMCE</a> +
-      <a target="_blank" href="https://vueup.github.io/vue-quill/guide/usage.html">Quill</a> +
-      <a target="_blank" href="https://summernote.org/getting-started/">Summernote</a>
+      <a target="_blank" href="https://vueup.github.io/vue-quill/guide/usage.html">Quill</a>
     </h3>
   </div>
 </template>
