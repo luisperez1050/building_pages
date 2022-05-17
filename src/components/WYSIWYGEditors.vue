@@ -36,7 +36,7 @@ import Editor from '@tinymce/tinymce-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-// import $ from 'jquery';
+import $ from 'jquery';
 import 'summernote/dist/summernote-lite.css';
 import { summernote } from 'summernote/dist/summernote-lite.js';
 
@@ -54,9 +54,9 @@ export default {
     };
   },
   created(){
-    let doc = document.createElement('script');  
-    doc.setAttribute('src',"https://code.jquery.com/jquery-3.5.1.min.js");
-    document.head.appendChild(doc);
+    // let doc = document.createElement('script');  
+    // doc.setAttribute('src',"https://code.jquery.com/jquery-3.5.1.min.js");
+    // document.head.appendChild(doc);
   },
   mounted(){
     $("#summernote").summernote({
