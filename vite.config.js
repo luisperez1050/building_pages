@@ -10,8 +10,8 @@ export default defineConfig({
   plugins: [
     vue(),
     inject({
-      $: 'jquery',
-      jQuery: 'jquery',
+      $: '@jquery',
+      jQuery: '@jquery',
       CodeMirror: 'codemirror',
       exclude: 'node_modules/**',
     }),
