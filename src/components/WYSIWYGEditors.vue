@@ -36,9 +36,9 @@ import Editor from '@tinymce/tinymce-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import $ from 'jquery';
-import 'summernote/dist/summernote-lite.css';
-import { summernote } from 'summernote/dist/summernote-lite.js';
+// import $ from 'jquery';
+// import 'summernote/dist/summernote-lite.css';
+// import { summernote } from 'summernote/dist/summernote-lite.js';
 
 export default {
   name: 'app',
@@ -54,17 +54,17 @@ export default {
     };
   },
   mounted(){
-    $("#summernote").summernote({
-      height: 100,
-      CodeMirrorConstructor: CodeMirror,
-      theme: 'monokai',
-      callbacks: {
-        onChange: () => {
-          this.checkHtml();
-        }
-      },
-    });
-    $("#summernote").summernote('code', this.summernoteHtml);
+    // $("#summernote").summernote({
+    //   height: 100,
+    //   CodeMirrorConstructor: CodeMirror,
+    //   theme: 'monokai',
+    //   callbacks: {
+    //     onChange: () => {
+    //       this.checkHtml();
+    //     }
+    //   },
+    // });
+    // $("#summernote").summernote('code', this.summernoteHtml);
   },
   updated() {
     localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
@@ -73,8 +73,8 @@ export default {
   },
   methods: {
     checkHtml() {
-      const html = $("#summernote").summernote('code');
-      this.summernoteHtml = html;
+      // const html = $("#summernote").summernote('code');
+      // this.summernoteHtml = html;
     }
   },
 }
