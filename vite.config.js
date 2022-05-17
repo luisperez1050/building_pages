@@ -6,11 +6,12 @@ import inject from '@rollup/plugin-inject';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/pages/',
   plugins: [
     vue(),
     inject({
       $: 'jquery',
+      jquery: 'jquery',
+      'window.jQuery': 'jquery',
       jQuery: 'jquery',
       CodeMirror: 'codemirror',
       exclude: 'node_modules/**',
