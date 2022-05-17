@@ -11,7 +11,7 @@ export default defineConfig({
     vue(),
     inject({
       $: 'jquery',
-      jQuery: 'jquery',
+      // jQuery: 'jquery',
       CodeMirror: 'codemirror',
       exclude: 'node_modules/**',
     }),
