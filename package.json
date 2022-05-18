@@ -8,9 +8,14 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@codemirror/basic-setup": "^0.20.0",
+    "@codemirror/lang-html": "^0.20.0",
+    "@codemirror/lang-javascript": "^0.20.0",
+    "@codemirror/theme-one-dark": "^0.20.0",
     "@tinymce/tinymce-vue": "^4.0.7",
     "@vueup/vue-quill": "^1.0.0-beta.8",
-    "vue": "^3.2.33"
+    "vue": "^3.2.33",
+    "vue-codemirror": "^5.0.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.1",
