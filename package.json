@@ -14,6 +14,7 @@
     "@codemirror/theme-one-dark": "^0.20.0",
     "@tinymce/tinymce-vue": "^4.0.7",
     "@vueup/vue-quill": "^1.0.0-beta.8",
+    "quill-html-edit-button": "^2.2.12",
     "vue": "^3.2.33",
     "vue-codemirror": "^5.0.1"
   },

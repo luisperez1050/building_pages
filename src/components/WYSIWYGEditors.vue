@@ -18,7 +18,10 @@
         <QuillEditor 
           v-model:content="quilleditorHtml"
           :content="quilleditorHtml"
+          :toolbar="quillToolBarOptions"
+          :syntax="true"
           :options="{ height: 150 }"
+          :modules="modules"
           contentType="html"
           theme="snow"
         />
@@ -52,6 +55,7 @@ import { html } from '@codemirror/lang-html'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { basicSetup } from '@codemirror/basic-setup'
 import { QuillEditor } from '@vueup/vue-quill';
+import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
@@ -62,8 +66,13 @@ export default {
     Codemirror
   },
   setup() {
-    const extensions = [html(), oneDark, basicSetup];
-    return { extensions, log: console.log };
+    const extensions = [html(), oneDark];
+    const modules = {
+      name: 'htmlEditButton',  
+      module: htmlEditButton, 
+      // options: { syntax: true }
+    }
+    return { extensions, log: console.log, modules };
   },
   data() {
     return {
@@ -77,12 +86,33 @@ export default {
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
     localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
   },
+  computed: {
+    quillToolBarOptions() {
+      return [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block', 'code'],
+
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean']                                         // remove formatting button
+      ];
+    },
+  },
 }
 </script>
 <style>
   .editor-wrapper p {
     margin-top: 20px;
   }
+  .ͼ4 .cm-line { caret-color: unset !important;}
   .tiny-mce,
   .quill,
   .codemirror {
