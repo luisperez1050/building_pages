@@ -1,7 +1,7 @@
 <template>
   <div class="editor-wrapper">
+    <p>TinyMCE</p>
     <div class="tiny-mce">
-      <p>TinyMCE</p>
       <editor
         v-model="tinymceHtml"
         :initial-value="tinymceHtml"
@@ -12,19 +12,21 @@
       />
       <div class="display-html" v-html="tinymceHtml"></div>
     </div>
+    <p>Quill</p>
     <div class="quill">
-      <p>Quill</p>
-      <QuillEditor 
-        v-model:content="quilleditorHtml"
-        :content="quilleditorHtml"
-        :options="{ height: 150 }"
-        contentType="html"
-        theme="snow"
-      />
+      <div class="grid-wrapper">
+        <QuillEditor 
+          v-model:content="quilleditorHtml"
+          :content="quilleditorHtml"
+          :options="{ height: 150 }"
+          contentType="html"
+          theme="snow"
+        />
+      </div>
       <div class="display-html" v-html="quilleditorHtml"></div>
     </div>
+    <p>Codemirror</p>
     <div class="codemirror">
-      <p>Codemirror</p>
       <codemirror
         v-model="codemirrorHtml"
         placeholder="Code goes here..."
@@ -78,10 +80,15 @@ export default {
 }
 </script>
 <style>
+  .editor-wrapper p {
+    margin-top: 20px;
+  }
   .tiny-mce,
   .quill,
-  .display-html {
-    margin-top: 20px;
+  .codemirror {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 20px;
   }
   .display-html {
     background-color: var(--vt-c-black-mute);
