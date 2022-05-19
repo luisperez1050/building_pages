@@ -10,8 +10,9 @@ import { render } from "dom-serializer";
 import * as CSSselect from 'css-select';
 import * as domutils from 'domutils';
 import * as domhandler from 'domhandler';
+import cheerio from 'cheerio';
 
-console.log(domhandler);
+console.log(cheerio);
 
 export default {
     data() {
@@ -75,7 +76,8 @@ export default {
     mounted() { 
         // this.serilizeHtml();
         // this.cssSelectExample();
-        this.domManipulate();
+        // this.domManipulate();
+        this.cheerioExample();
     },
     methods: {
         serilizeHtml() {
@@ -118,7 +120,28 @@ export default {
             }
         }
         const serilzd = render(dom);
+        this.html = serilzd;
         console.log(serilzd);
+        },
+        cheerioExample() {
+        const $ = cheerio.load(this.html, {
+            _useHtmlParser2: true
+        });
+        $('funky-bump').remove();
+        for (let sm of $('xml-sitemap')) {
+            if (!$(sm).attr('href')) $(sm).remove();
+            else {
+                let $template = cheerio.load(
+                        '<link rel="sitemap" type="application/xml" href=""/>',
+                        null, false);
+                $template('link').attr('href', $(sm).attr('href'));
+                $(sm).replaceWith($template.html());
+            }
+        }
+
+        console.log($.html());
+        this.html = $.html();
+        // console.log($.root().html());
         },
     },
 
