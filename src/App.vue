@@ -1,6 +1,13 @@
 <script setup>
 import PageHeader from './components/PageHeader.vue'
 import WYSIWYGEditors from './components/WYSIWYGEditors.vue'
+import ParseHtml from './components/ParseHtml.vue'
+import { ref, computed } from 'vue';
+const show = ref(false)
+const showEditors = () => { show.value = !show.value }
+const buttonText = computed(() => {
+  return show.value ? 'Hide Editors' : 'Show Editors'
+})
 </script>
 
 <template>
@@ -9,11 +16,13 @@ import WYSIWYGEditors from './components/WYSIWYGEditors.vue'
 
     <div class="wrapper">
       <PageHeader msg="Build pages" />
+      <button @click="showEditors()">{{ buttonText }}</button>
     </div>
   </header>
 
   <main>
-    <WYSIWYGEditors />
+    <ParseHtml />
+    <WYSIWYGEditors v-if="show" />
   </main>
 </template>
 
