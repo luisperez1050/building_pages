@@ -99,7 +99,8 @@ export default {
             console.log(CSSselect.selectAll('article .article-head', dom));  
         },
         domManipulate() {
-        const dom = htmlparser2.parseDocument(rawHtml);      for (let fb of CSSselect.selectAll('funky-bump', dom)) {
+        const dom = htmlparser2.parseDocument(this.html);
+        for (let fb of CSSselect.selectAll('funky-bump', dom)) {
             domutils.removeElement(fb);
         }
         for (let sm of CSSselect.selectAll('xml-sitemap', dom)) {
