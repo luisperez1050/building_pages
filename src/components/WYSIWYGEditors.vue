@@ -36,7 +36,8 @@
         :style="{ height: '400px' }"
         :indent-with-tab="true"
         :tabSize="2"
-        :extensions="extensions"
+        :options="codemirrorOptions"
+
         @ready="log('ready', $event)"
         @change="log('change', $event)"
         @focus="log('focus', $event)"
@@ -44,19 +45,31 @@
       />
       <div class="display-html" v-html="codemirrorHtml"></div>
     </div>
+    <p>Codemirror package</p>
+    <div class="codemirror">
+      <textarea v-model="cmHtml" id="cmpackage" ></textarea>
+      <!-- <div class="display-html" v-html="cmHtml"></div> -->
+    </div>
   </div>
 </template>
 
 <script>
 import Editor from '@tinymce/tinymce-vue';
 import { Codemirror } from 'vue-codemirror'
+import * as CodemirrorPackage from 'codemirror'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/monokai.css';
+import 'codemirror/mode/htmlmixed/htmlmixed.js';
 import { javascript } from '@codemirror/lang-javascript'
 import { html } from '@codemirror/lang-html'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { basicSetup } from '@codemirror/basic-setup'
+import { linter } from '@codemirror/lint'
 import { QuillEditor } from '@vueup/vue-quill';
 import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+console.log('lint', linter);
 
 export default {
   name: 'app',
@@ -66,7 +79,7 @@ export default {
     Codemirror
   },
   setup() {
-    const extensions = [html(), oneDark];
+    const extensions = [ oneDark];
     const modules = {
       name: 'htmlEditButton',  
       module: htmlEditButton, 
@@ -79,12 +92,20 @@ export default {
       tinymceHtml: localStorage.getItem('tinyMCEStored'),
       quilleditorHtml: localStorage.getItem('quillStored'),
       codemirrorHtml: localStorage.getItem('codemirrorStored'),
+      cmHtml: localStorage.getItem('cmStored'),
+      codemirrorOptions: {
+        mode: 'text/html',
+        htmlMode: true,
+        lineNumbers: true,
+        theme: 'monokai'
+      },
     };
   },
   updated() {
     localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
     localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
+    localStorage.setItem('cmStored', this.cmHtml ?? '');
   },
   computed: {
     quillToolBarOptions() {
@@ -105,6 +126,13 @@ export default {
         ['clean']                                         // remove formatting button
       ];
     },
+  },
+  mounted() {
+    CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
+      lineNumbers: true,
+      theme: 'monokai',
+      mode: 'htmlmixed',
+    });
   },
 }
 </script>

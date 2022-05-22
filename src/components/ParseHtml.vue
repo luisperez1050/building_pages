@@ -1,6 +1,6 @@
 <template>
   <div>
-      <pre> {{ html }} </pre>
+      <pre><code class="language-html"> {{ badHtml }} </code></pre>
   </div>
 </template>
 
@@ -11,6 +11,8 @@ import * as CSSselect from 'css-select';
 import * as domutils from 'domutils';
 import * as domhandler from 'domhandler';
 import cheerio from 'cheerio';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai.css'
 
 console.log(cheerio);
 
@@ -71,13 +73,18 @@ export default {
                 </body> 
                 </html>
             `,
+            badHtml: `
+                <p style="color: green; font-family: helevtica,"" "open", sans;">this is bad</p>
+            `,
         };
     },
     mounted() { 
         // this.serilizeHtml();
         // this.cssSelectExample();
         // this.domManipulate();
-        this.cheerioExample();
+        // this.cheerioExample();
+        hljs.highlightAll();
+        this.domParse();
     },
     methods: {
         serilizeHtml() {
@@ -142,6 +149,11 @@ export default {
         console.log($.html());
         this.html = $.html();
         // console.log($.root().html());
+        },
+        domParse() {
+            const parse = new DOMParser();
+            const html = parse.parseFromString(this.badHtml, 'text/html');
+            console.log(html);
         },
     },
 
