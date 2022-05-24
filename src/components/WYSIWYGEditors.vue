@@ -1,18 +1,21 @@
 <template>
   <div class="editor-wrapper">
-    <p>TinyMCE</p>
-    <div class="tiny-mce">
+    
+    <div v-if="!test1" class="tiny-mce">
+      <p>TinyMCE test= {{test1}}</p>
       <editor
         v-model="tinymceHtml"
         :initial-value="tinymceHtml"
         api-key="no-api-key"
         :init="{
-          plugins: 'lists link image table code help wordcount'
+          plugins: 'lists link image table code help wordcount',
+          toolbar: 'customStrikethrough customToggleStrikethrough',
+          setup: setup
         }"
       />
       <div class="display-html" v-html="tinymceHtml"></div>
     </div>
-    <p>Quill</p>
+    <!-- <p>Quill</p>
     <div class="quill">
       <div class="grid-wrapper">
         <QuillEditor 
@@ -44,16 +47,20 @@
         @blur="log('blur', $event)"
       />
       <div class="display-html" v-html="codemirrorHtml"></div>
-    </div>
-    <p>Codemirror package</p>
-    <div class="codemirror">
-      <textarea v-model="cmHtml" id="cmpackage" ></textarea>
-      <!-- <div class="display-html" v-html="cmHtml"></div> -->
+    </div> -->
+    
+    <div v-if="test1" class="codemirror">
+      <p>Codemirror package</p>
+      <textarea v-model="tinymceHtml" id="cmpackage" ></textarea>
+      <div class="display-html" v-html="tinymceHtml"></div>
+      <button @click="() => test1 = false">Done</button>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useTinyMCEOptions } from '../../composables/useTinyMCEOptions.js'
 import Editor from '@tinymce/tinymce-vue';
 import { Codemirror } from 'vue-codemirror'
 import * as CodemirrorPackage from 'codemirror'
@@ -85,7 +92,10 @@ export default {
       module: htmlEditButton, 
       // options: { syntax: true }
     }
-    return { extensions, log: console.log, modules };
+    const test = ref(false);
+    const { setup, test1 } = useTinyMCEOptions();
+    console.log('setup', setup);
+    return { extensions, log: console.log, modules, setup, test, test1 };
   },
   data() {
     return {
@@ -102,6 +112,14 @@ export default {
     };
   },
   updated() {
+    if (this.test1) {
+      CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
+        lineNumbers: true,
+        theme: 'monokai',
+        mode: 'htmlmixed',
+      });
+    }
+    console.log('tiny', this.tinymceHtml);
     localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
     localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
@@ -128,11 +146,37 @@ export default {
     },
   },
   mounted() {
-    CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
-      lineNumbers: true,
-      theme: 'monokai',
-      mode: 'htmlmixed',
-    });
+    // CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
+    //   lineNumbers: true,
+    //   theme: 'monokai',
+    //   mode: 'htmlmixed',
+    // });
+  },
+  methods: {
+    tinyMCEConfig() {
+      const setup = (editor) => {
+        editor.ui.registry.addToggleButton('customStrikethrough', {
+          text: 'Strikethrough',
+          onAction: (api) => {
+            this.test = true;
+            console.log('onAction', this.test);
+            editor.execCommand('mceToggleFormat', false, 'strikethrough');
+            api.setActive(!api.isActive());
+          }
+        });
+
+        editor.ui.registry.addToggleButton('customToggleStrikethrough', {
+          icon: 'strike-through',
+          onAction: (_) => editor.execCommand('mceToggleFormat', false, 'strikethrough'),
+          onSetup: (api) => {
+            api.setActive(editor.formatter.match('strikethrough'));
+            const changed = editor.formatter.formatChanged('strikethrough', (state) => api.setActive(state));
+            return () => changed.unbind();
+          }
+        });
+      }
+      return setup
+    },
   },
 }
 </script>
@@ -140,13 +184,19 @@ export default {
   .editor-wrapper p {
     margin-top: 20px;
   }
-  .ͼ4 .cm-line { caret-color: unset !important;}
+  .editor-wrapper p,
+  .editor-wrapper button {
+    grid-column: 1 / -1;
+  }
+  .editor-wrapper button {
+    width: 60px;
+  }
   .tiny-mce,
   .quill,
   .codemirror {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-gap: 20px;
+    grid-gap: 8px 20px;
   }
   .display-html {
     background-color: var(--vt-c-black-mute);

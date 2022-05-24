@@ -21,8 +21,8 @@ const buttonText = computed(() => {
   </header>
 
   <main>
-    <ParseHtml />
-    <WYSIWYGEditors v-if="show" />
+    <!-- <ParseHtml /> -->
+    <WYSIWYGEditors />
   </main>
 </template>
 
