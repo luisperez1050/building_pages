@@ -1,21 +1,24 @@
 <template>
   <div class="editor-wrapper">
     
-    <div v-if="!test1" class="tiny-mce">
-      <p>TinyMCE test= {{test1}}</p>
-      <editor
+    <div v-if="!showCodeMirror" class="tiny-mce">
+      <p>TinyMCE</p>
+      <Editor
         v-model="tinymceHtml"
         :initial-value="tinymceHtml"
         api-key="no-api-key"
         :init="{
-          plugins: 'lists link image table code help wordcount',
-          toolbar: 'customStrikethrough customToggleStrikethrough',
+          plugins: 'lists link image table code help wordcount autoresize',
+          toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent codemirror',
           setup: setup
         }"
       />
       <div class="display-html" v-html="tinymceHtml"></div>
     </div>
-    <!-- <p>Quill</p>
+    <CodeMirror v-if="showCodeMirror" :sourceHtml="tinymceHtml" @sourceCodeUpdate="updateTinyMCE">
+      <button @click="() => showCodeMirror = false">Done</button>
+    </CodeMirror>
+    <p>Quill</p>
     <div class="quill">
       <div class="grid-wrapper">
         <QuillEditor 
@@ -31,30 +34,6 @@
       </div>
       <div class="display-html" v-html="quilleditorHtml"></div>
     </div>
-    <p>Codemirror</p>
-    <div class="codemirror">
-      <codemirror
-        v-model="codemirrorHtml"
-        placeholder="Code goes here..."
-        :style="{ height: '400px' }"
-        :indent-with-tab="true"
-        :tabSize="2"
-        :options="codemirrorOptions"
-
-        @ready="log('ready', $event)"
-        @change="log('change', $event)"
-        @focus="log('focus', $event)"
-        @blur="log('blur', $event)"
-      />
-      <div class="display-html" v-html="codemirrorHtml"></div>
-    </div> -->
-    
-    <div v-if="test1" class="codemirror">
-      <p>Codemirror package</p>
-      <textarea v-model="tinymceHtml" id="cmpackage" ></textarea>
-      <div class="display-html" v-html="tinymceHtml"></div>
-      <button @click="() => test1 = false">Done</button>
-    </div>
   </div>
 </template>
 
@@ -62,40 +41,28 @@
 import { ref } from 'vue';
 import { useTinyMCEOptions } from '../../composables/useTinyMCEOptions.js'
 import Editor from '@tinymce/tinymce-vue';
-import { Codemirror } from 'vue-codemirror'
-import * as CodemirrorPackage from 'codemirror'
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/monokai.css';
-import 'codemirror/mode/htmlmixed/htmlmixed.js';
-import { javascript } from '@codemirror/lang-javascript'
-import { html } from '@codemirror/lang-html'
-import { oneDark } from '@codemirror/theme-one-dark'
-import { basicSetup } from '@codemirror/basic-setup'
-import { linter } from '@codemirror/lint'
+import CodeMirror from './CodeMirror.vue'
 import { QuillEditor } from '@vueup/vue-quill';
 import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-console.log('lint', linter);
 
 export default {
   name: 'app',
   components: {
-    'editor': Editor,
+    Editor,
     QuillEditor,
-    Codemirror
+    CodeMirror
   },
   setup() {
-    const extensions = [ oneDark];
     const modules = {
       name: 'htmlEditButton',  
       module: htmlEditButton, 
       // options: { syntax: true }
     }
     const test = ref(false);
-    const { setup, test1 } = useTinyMCEOptions();
-    console.log('setup', setup);
-    return { extensions, log: console.log, modules, setup, test, test1 };
+    const { setup, showCodeMirror } = useTinyMCEOptions();
+    return { modules, setup, test, showCodeMirror };
   },
   data() {
     return {
@@ -103,23 +70,9 @@ export default {
       quilleditorHtml: localStorage.getItem('quillStored'),
       codemirrorHtml: localStorage.getItem('codemirrorStored'),
       cmHtml: localStorage.getItem('cmStored'),
-      codemirrorOptions: {
-        mode: 'text/html',
-        htmlMode: true,
-        lineNumbers: true,
-        theme: 'monokai'
-      },
     };
   },
   updated() {
-    if (this.test1) {
-      CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
-        lineNumbers: true,
-        theme: 'monokai',
-        mode: 'htmlmixed',
-      });
-    }
-    console.log('tiny', this.tinymceHtml);
     localStorage.setItem('tinyMCEStored', this.tinymceHtml ?? '');
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
     localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
@@ -145,37 +98,10 @@ export default {
       ];
     },
   },
-  mounted() {
-    // CodemirrorPackage.fromTextArea(document.getElementById('cmpackage'), {
-    //   lineNumbers: true,
-    //   theme: 'monokai',
-    //   mode: 'htmlmixed',
-    // });
-  },
   methods: {
-    tinyMCEConfig() {
-      const setup = (editor) => {
-        editor.ui.registry.addToggleButton('customStrikethrough', {
-          text: 'Strikethrough',
-          onAction: (api) => {
-            this.test = true;
-            console.log('onAction', this.test);
-            editor.execCommand('mceToggleFormat', false, 'strikethrough');
-            api.setActive(!api.isActive());
-          }
-        });
-
-        editor.ui.registry.addToggleButton('customToggleStrikethrough', {
-          icon: 'strike-through',
-          onAction: (_) => editor.execCommand('mceToggleFormat', false, 'strikethrough'),
-          onSetup: (api) => {
-            api.setActive(editor.formatter.match('strikethrough'));
-            const changed = editor.formatter.formatChanged('strikethrough', (state) => api.setActive(state));
-            return () => changed.unbind();
-          }
-        });
-      }
-      return setup
+    updateTinyMCE(updatedHtml) {
+      console.log('emit', updatedHtml);
+      this.tinymceHtml = updatedHtml;
     },
   },
 }
