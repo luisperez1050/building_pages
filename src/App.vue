@@ -16,7 +16,7 @@ const buttonText = computed(() => {
 
     <div class="wrapper">
       <PageHeader msg="Build pages" />
-      <button @click="showEditors()">{{ buttonText }}</button>
+      <button v-if="false" @click="showEditors()">{{ buttonText }}</button>
     </div>
   </header>
 

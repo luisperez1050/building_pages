@@ -18,8 +18,9 @@
     <CodeMirror v-if="showCodeMirror" :sourceHtml="tinymceHtml" @sourceCodeUpdate="updateTinyMCE">
       <button @click="() => showCodeMirror = false">Done</button>
     </CodeMirror>
-    <p>Quill</p>
+    
     <div class="quill">
+      <p>Quill</p>
       <div class="grid-wrapper">
         <QuillEditor 
           v-model:content="quilleditorHtml"
@@ -34,6 +35,9 @@
       </div>
       <div class="display-html" v-html="quilleditorHtml"></div>
     </div>
+    <div id="app">
+        <ckeditor :editor="editor" v-model="editorData"></ckeditor>
+    </div>
   </div>
 </template>
 
@@ -45,6 +49,7 @@ import CodeMirror from './CodeMirror.vue'
 import { QuillEditor } from '@vueup/vue-quill';
 import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 export default {
@@ -52,16 +57,16 @@ export default {
   components: {
     Editor,
     QuillEditor,
-    CodeMirror
+    CodeMirror,
   },
   setup() {
     const modules = {
       name: 'htmlEditButton',  
       module: htmlEditButton, 
-      // options: { syntax: true }
     }
     const test = ref(false);
     const { setup, showCodeMirror } = useTinyMCEOptions();
+
     return { modules, setup, test, showCodeMirror };
   },
   data() {
@@ -70,6 +75,8 @@ export default {
       quilleditorHtml: localStorage.getItem('quillStored'),
       codemirrorHtml: localStorage.getItem('codemirrorStored'),
       cmHtml: localStorage.getItem('cmStored'),
+      editor: ClassicEditor,
+      editorData: '<p>Content of the editor.</p>',
     };
   },
   updated() {

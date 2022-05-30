@@ -33,3 +33,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Link to github page
+```
+https://luisperez1050.github.io/building_pages/
+```
