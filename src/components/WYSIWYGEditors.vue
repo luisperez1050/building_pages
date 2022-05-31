@@ -1,6 +1,6 @@
 <template>
   <div class="editor-wrapper">
-    
+    {{ validationMessage }}
     <div v-if="!showCodeMirror" class="tiny-mce">
       <p>TinyMCE</p>
       <Editor
@@ -38,6 +38,7 @@
     <div id="app">
         <ckeditor :editor="editor" v-model="editorData"></ckeditor>
     </div>
+    <button @click="test()">test</button>
   </div>
 </template>
 
@@ -76,7 +77,9 @@ export default {
       codemirrorHtml: localStorage.getItem('codemirrorStored'),
       cmHtml: localStorage.getItem('cmStored'),
       editor: ClassicEditor,
-      editorData: '<p>Content of the editor.</p>',
+      editorData: localStorage.getItem('editorStored') ?? '',
+      validationMessage: null,
+      bad: '<p style="font-family: hans, "arial", helvitica;">test</p>'
     };
   },
   updated() {
@@ -84,6 +87,7 @@ export default {
     localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
     localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
     localStorage.setItem('cmStored', this.cmHtml ?? '');
+    localStorage.setItem('editorStored', this.editorData ?? '');
   },
   computed: {
     quillToolBarOptions() {
@@ -107,9 +111,19 @@ export default {
   },
   methods: {
     updateTinyMCE(updatedHtml) {
-      console.log('emit', updatedHtml);
       this.tinymceHtml = updatedHtml;
     },
+    test() {
+      fetch('https://luis-nitro-app-default.layer0-limelight.link/api/validation', {
+        method: 'post',
+        headers: { 'Content-type': 'application/json' },
+        body : this.bad
+      })
+      .then((res) => res.json())
+      .then( (response) => {
+        this.validationMessage = response;
+      });
+    }
   },
 }
 </script>
