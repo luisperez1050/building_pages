@@ -37,6 +37,16 @@
     <div id="app">
         <ckeditor :editor="editor" v-model="editorData"></ckeditor>
     </div>
+    <label>
+      Select an editor to validate
+      <VueSelect :options="[
+      {label: 'TinyMCE', local: 'tinyMCEStored'},
+      {label: 'Quill', local: 'quillStored'},
+      {label: 'CkEditor', local: 'editorStored'},
+      ]">
+
+      </VueSelect>
+    </label>
     <button @click="test()">test</button>
     <pre v-if="invalid">{{ htmlErrors }}</pre>
   </div>
@@ -51,6 +61,8 @@ import { QuillEditor } from '@vueup/vue-quill';
 import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import VueSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css';
 
 
 export default {
@@ -59,6 +71,7 @@ export default {
     Editor,
     QuillEditor,
     CodeMirror,
+    VueSelect,
   },
   setup() {
     const modules = {
@@ -79,8 +92,7 @@ export default {
       editor: ClassicEditor,
       editorData: localStorage.getItem('editorStored') ?? '',
       invalid: false,
-      htmlErrors: null,
-      bad: '<p style="font-family: hans, "arial", helvitica;">test</p><p><p style="font-family: hans, "arial", helvitica;">test</p><p><p style="font-family: hans, "arial", helvitica;">test</p><p>'
+      htmlErrors: null,   
     };
   },
   updated() {
@@ -115,8 +127,7 @@ export default {
       this.tinymceHtml = updatedHtml;
     },
     test() {
-      //Fu3721T3w7tM8S178yiGvaLv
-      fetch('http://localhost:4000/validate', {
+      fetch('https://luis-express-endpoints-default.layer0-limelight.link/validate', {
         method: 'post',
         body : this.bad
       })
