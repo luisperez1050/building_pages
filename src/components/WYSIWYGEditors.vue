@@ -1,6 +1,5 @@
 <template>
   <div class="editor-wrapper">
-    {{ validationMessage }}
     <div v-if="!showCodeMirror" class="tiny-mce">
       <p>TinyMCE</p>
       <Editor
@@ -39,6 +38,7 @@
         <ckeditor :editor="editor" v-model="editorData"></ckeditor>
     </div>
     <button @click="test()">test</button>
+    <pre v-if="invalid">{{ htmlErrors }}</pre>
   </div>
 </template>
 
@@ -78,8 +78,9 @@ export default {
       cmHtml: localStorage.getItem('cmStored'),
       editor: ClassicEditor,
       editorData: localStorage.getItem('editorStored') ?? '',
-      validationMessage: null,
-      bad: '<p style="font-family: hans, "arial", helvitica;">test</p>'
+      invalid: false,
+      htmlErrors: null,
+      bad: '<p style="font-family: hans, "arial", helvitica;">test</p><p><p style="font-family: hans, "arial", helvitica;">test</p><p><p style="font-family: hans, "arial", helvitica;">test</p><p>'
     };
   },
   updated() {
@@ -114,14 +115,15 @@ export default {
       this.tinymceHtml = updatedHtml;
     },
     test() {
-      fetch('https://luis-nitro-app-default.layer0-limelight.link/api/validation', {
+      //Fu3721T3w7tM8S178yiGvaLv
+      fetch('http://localhost:4000/validate', {
         method: 'post',
-        headers: { 'Content-type': 'application/json' },
         body : this.bad
       })
       .then((res) => res.json())
       .then( (response) => {
-        this.validationMessage = response;
+        this.invalid = !response.valid;
+        this.htmlErrors = response.errors;
       });
     }
   },
@@ -152,6 +154,14 @@ export default {
     box-shadow: 0px 0px 6px hsla(160, 100%, 37%, 1);
     color: var(--vt-c-white-soft);
     padding: 5px 8px;
+  }
+  pre {
+    background-color: rgb(229, 116, 116);
+    border-radius: 6px;
+    color: black;
+    margin-top: 10px;
+    padding: 5px 10px;
+    overflow: auto;
   }
   .tox-notifications-container {
     display: none;

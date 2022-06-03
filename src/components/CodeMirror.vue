@@ -12,14 +12,6 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/monokai.css';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 export default{
-  // async setup() {
-  //   const codemirror = await import('codemirror');
-  //   console.log('setup', codemirror)
-  //   // import 'codemirror/lib/codemirror.css';
-  //   // import 'codemirror/theme/monokai.css';
-  //   // import 'codemirror/mode/htmlmixed/htmlmixed.js';
-  //   return { codemirror };
-  // },
   emits: ['sourceCodeUpdate'],
   props: {
     sourceHtml: {
