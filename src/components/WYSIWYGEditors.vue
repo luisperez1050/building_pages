@@ -37,13 +37,18 @@
     <div id="app">
         <ckeditor :editor="editor" v-model="editorData"></ckeditor>
     </div>
+    {{def}}
     <label>
       Select an editor to validate
-      <VueSelect :options="[
-      {label: 'TinyMCE', local: 'tinyMCEStored'},
-      {label: 'Quill', local: 'quillStored'},
-      {label: 'CkEditor', local: 'editorStored'},
-      ]">
+      <VueSelect
+        v-model="def"
+        :options="[
+          {label: 'TinyMCE', local: 'tinyMCEStored'},
+          {label: 'Quill', local: 'quillStored'},
+          {label: 'CkEditor', local: 'editorStored'},
+        ]"
+        :reduce="label => label.local"
+      >
 
       </VueSelect>
     </label>
@@ -61,7 +66,7 @@ import { QuillEditor } from '@vueup/vue-quill';
 import htmlEditButton from "quill-html-edit-button";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import VueSelect from 'vue-select'
+import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
 
 
@@ -71,7 +76,7 @@ export default {
     Editor,
     QuillEditor,
     CodeMirror,
-    VueSelect,
+    vSelect,
   },
   setup() {
     const modules = {
@@ -92,7 +97,8 @@ export default {
       editor: ClassicEditor,
       editorData: localStorage.getItem('editorStored') ?? '',
       invalid: false,
-      htmlErrors: null,   
+      htmlErrors: null,
+      def: 'test',
     };
   },
   updated() {
@@ -127,16 +133,18 @@ export default {
       this.tinymceHtml = updatedHtml;
     },
     test() {
+      //nuxt http://0.0.0.0/api/validation
+      // express https://luis-express-endpoints-default.layer0-limelight.link/validate
       fetch('https://luis-express-endpoints-default.layer0-limelight.link/validate', {
         method: 'post',
-        body : this.bad
+        body : '<p>test</p><p>'
       })
       .then((res) => res.json())
       .then( (response) => {
         this.invalid = !response.valid;
         this.htmlErrors = response.errors;
       });
-    }
+    },
   },
 }
 </script>
@@ -174,6 +182,7 @@ export default {
     padding: 5px 10px;
     overflow: auto;
   }
+  .v-select { width: 25%; }
   .tox-notifications-container {
     display: none;
   }
