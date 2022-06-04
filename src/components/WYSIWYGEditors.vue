@@ -135,7 +135,7 @@ export default {
     test() {
       //nuxt http://0.0.0.0/api/validation
       // express https://luis-express-endpoints-default.layer0-limelight.link/validate
-      fetch('https://luis-express-endpoints-default.layer0-limelight.link/validate', {
+      fetch('https://express-endpoint-vue.herokuapp.com/validate', {
         method: 'post',
         body : '<p>test</p><p>'
       })
