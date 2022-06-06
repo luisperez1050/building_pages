@@ -40,7 +40,7 @@
     {{def}}
     <label>
       Select an editor to validate
-      <VueSelect
+      <vSelect
         v-model="def"
         :options="[
           {label: 'TinyMCE', local: 'tinyMCEStored'},
@@ -50,7 +50,7 @@
         :reduce="label => label.local"
       >
 
-      </VueSelect>
+      </vSelect>
     </label>
     <button @click="test()">test</button>
     <pre v-if="invalid">{{ htmlErrors }}</pre>
@@ -134,10 +134,14 @@ export default {
     },
     test() {
       //nuxt http://0.0.0.0/api/validation
-      // express https://luis-express-endpoints-default.layer0-limelight.link/validate
-      fetch('https://express-endpoint-vue.herokuapp.com/validate', {
+      // express https://express-endpoint-vue.herokuapp.com/validate
+      fetch('http://localhost:4000/validate', {
         method: 'post',
-        body : '<p>test</p><p>'
+        body : `<ul id="fruits">
+      <li class="apple">Apple</li>
+      <li class="orange">Orange</li>
+      <li class="pear" style="color: red; font-family: arial, " hans"="" ;"="">Pear</li>
+    </ul>`
       })
       .then((res) => res.json())
       .then( (response) => {

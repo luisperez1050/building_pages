@@ -14,8 +14,6 @@ import cheerio from 'cheerio';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai.css'
 
-console.log(cheerio);
-
 export default {
     data() {
         return {

@@ -2,6 +2,7 @@
 import PageHeader from './components/PageHeader.vue'
 import WYSIWYGEditors from './components/WYSIWYGEditors.vue'
 import ParseHtml from './components/ParseHtml.vue'
+import BuildVue from './components/BuildVue.vue'
 import { ref, computed } from 'vue';
 const show = ref(false)
 const showEditors = () => { show.value = !show.value }
@@ -23,6 +24,7 @@ const buttonText = computed(() => {
   <main>
     <!-- <ParseHtml /> -->
     <WYSIWYGEditors />
+    <BuildVue />
   </main>
 </template>
 
