@@ -1,45 +1,16 @@
 {
-  "name": "vue-project",
-  "version": "0.0.0",
+  "name": "building_pages",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --port 5050",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
-  },
-  "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^34.1.0",
-    "@ckeditor/ckeditor5-source-editing": "^34.1.0",
-    "@ckeditor/ckeditor5-vue": "^4.0.1",
-    "@tinymce/tinymce-vue": "^4.0.7",
-    "@vueup/vue-quill": "^1.0.0-beta.8",
-    "autoprefixer": "^10.4.7",
-    "cheerio": "^1.0.0-rc.10",
-    "codemirror": "^5.65.4",
-    "css-select": "^5.1.0",
-    "dom-serializer": "^2.0.0",
-    "domhandler": "^5.0.3",
-    "domutils": "^3.0.1",
-    "highlight.js": "^11.5.1",
-    "htmlparser2": "^8.0.1",
-    "postcss": "^8.4.14",
-    "quill-html-edit-button": "^2.2.12",
-    "tailwindcss": "^3.0.24",
-    "vue": "^3.2.33",
-    "vue-codemirror": "^5.0.1",
-    "vue-select": "^4.0.0-beta.3",
-    "websocket.io": "^0.2.1",
-    "ws": "^8.7.0"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.1",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "eslint": "^8.5.0",
-    "eslint-plugin-vue": "^8.2.0",
-    "postcss-loader": "^3.0.0",
-    "prettier": "^2.5.1",
-    "sass": "^1.26.2",
-    "sass-loader": "^8.0.2",
-    "vite": "^2.9.5"
+    "@nuxt/devtools": "latest",
+    "nuxt": "^3.7.3"
   }
 }
