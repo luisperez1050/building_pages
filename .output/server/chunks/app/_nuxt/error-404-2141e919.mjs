@@ -1,6 +1,7 @@
 import { mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext, defineComponent, computed, ref, h, resolveComponent } from 'vue';
-import { l as hasProtocol, p as parseURL, t as parseQuery, v as withTrailingSlash, x as withoutTrailingSlash } from '../../nitro/node-server.mjs';
-import { _ as _export_sfc, a as useHead, u as useRouter, n as navigateTo } from '../server.mjs';
+import { n as hasProtocol, p as parseURL, v as parseQuery, x as withTrailingSlash, y as withoutTrailingSlash } from '../../nitro/node-server.mjs';
+import { _ as _export_sfc, u as useRouter, n as navigateTo } from '../server.mjs';
+import { u as useHead } from './index-6a088328.mjs';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import 'node:http';
 import 'node:https';
@@ -14,12 +15,14 @@ import 'node:fs';
 import 'node:path';
 import 'fs';
 import 'path';
-import '@unhead/ssr';
 import 'unhead';
 import '@unhead/shared';
+import 'vue-router';
 
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
+/*! @__NO_SIDE_EFFECTS__ */
+// @__NO_SIDE_EFFECTS__
 function defineNuxtLink(options) {
   const componentName = options.componentName || "NuxtLink";
   const resolveTrailingSlashBehavior = (to, resolve) => {
@@ -281,4 +284,4 @@ _sfc_main.setup = (props, ctx) => {
 const error404 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ccd3db62"]]);
 
 export { error404 as default };
-//# sourceMappingURL=error-404-47f450da.mjs.map
+//# sourceMappingURL=error-404-2141e919.mjs.map

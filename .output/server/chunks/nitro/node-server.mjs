@@ -181,6 +181,10 @@ function hasProtocol(inputString, opts = {}) {
   }
   return PROTOCOL_REGEX.test(inputString) || (opts.acceptRelative ? PROTOCOL_RELATIVE_REGEX.test(inputString) : false);
 }
+const PROTOCOL_SCRIPT_RE = /^[\s\0]*(blob|data|javascript|vbscript):$/;
+function isScriptProtocol(protocol) {
+  return !!protocol && PROTOCOL_SCRIPT_RE.test(protocol);
+}
 const TRAILING_SLASH_RE = /\/$|\/\?/;
 function hasTrailingSlash(input = "", queryParameters = false) {
   if (!queryParameters) {
@@ -262,21 +266,6 @@ function joinURL(base, ...input) {
     }
   }
   return url;
-}
-function isEqual(a, b, options = {}) {
-  if (!options.trailingSlash) {
-    a = withTrailingSlash(a);
-    b = withTrailingSlash(b);
-  }
-  if (!options.leadingSlash) {
-    a = withLeadingSlash(a);
-    b = withLeadingSlash(b);
-  }
-  if (!options.encoding) {
-    a = decode(a);
-    b = decode(b);
-  }
-  return a === b;
 }
 
 function parseURL(input = "", defaultProto) {
@@ -1611,6 +1600,9 @@ function setResponseStatus(event, code, text) {
 }
 function getResponseStatus(event) {
   return event.node.res.statusCode;
+}
+function getResponseStatusText(event) {
+  return event.node.res.statusMessage;
 }
 function defaultContentType(event, type) {
   if (type && !event.node.res.getHeader("content-type")) {
@@ -4834,14 +4826,13 @@ const plugins = [
 const errorHandler = (async function errorhandler(error, event) {
   const { stack, statusCode, statusMessage, message } = normalizeError(error);
   const errorObject = {
-    url: event.node.req.url,
+    url: event.path,
     statusCode,
     statusMessage,
     message,
     stack: "",
     data: error.data
   };
-  setResponseStatus(event, errorObject.statusCode !== 200 && errorObject.statusCode || 500, errorObject.statusMessage);
   if (error.unhandled || error.fatal) {
     const tags = [
       "[nuxt]",
@@ -4852,85 +4843,108 @@ const errorHandler = (async function errorhandler(error, event) {
     ].filter(Boolean).join(" ");
     console.error(tags, errorObject.message + "\n" + stack.map((l) => "  " + l.text).join("  \n"));
   }
-  if (isJsonRequest(event)) {
-    setResponseHeader(event, "Content-Type", "application/json");
-    event.node.res.end(JSON.stringify(errorObject));
+  if (event.handled) {
     return;
   }
-  const isErrorPage = event.node.req.url?.startsWith("/__nuxt_error");
+  setResponseStatus(event, errorObject.statusCode !== 200 && errorObject.statusCode || 500, errorObject.statusMessage);
+  if (isJsonRequest(event)) {
+    setResponseHeader(event, "Content-Type", "application/json");
+    return send(event, JSON.stringify(errorObject));
+  }
+  const isErrorPage = event.path.startsWith("/__nuxt_error");
   const res = !isErrorPage ? await useNitroApp().localFetch(withQuery(joinURL(useRuntimeConfig().app.baseURL, "/__nuxt_error"), errorObject), {
     headers: getRequestHeaders(event),
     redirect: "manual"
   }).catch(() => null) : null;
   if (!res) {
     const { template } = await import('../error-500.mjs');
+    if (event.handled) {
+      return;
+    }
     setResponseHeader(event, "Content-Type", "text/html;charset=UTF-8");
-    event.node.res.end(template(errorObject));
+    return send(event, template(errorObject));
+  }
+  const html = await res.text();
+  if (event.handled) {
     return;
   }
   for (const [header, value] of res.headers.entries()) {
     setResponseHeader(event, header, value);
   }
   setResponseStatus(event, res.status && res.status !== 200 ? res.status : void 0, res.statusText);
-  event.node.res.end(await res.text());
+  return send(event, html);
 });
 
 const assets = {
   "/favicon.ico": {
     "type": "image/vnd.microsoft.icon",
     "etag": "\"10be-n8egyE9tcb7sKGr/pYCaQ4uWqxI\"",
-    "mtime": "2023-09-22T20:57:46.401Z",
+    "mtime": "2023-09-22T21:58:15.651Z",
     "size": 4286,
     "path": "../public/favicon.ico"
   },
-  "/_nuxt/entry.3c4ebcd6.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"2f5d-IUbnwWIn6QsALxMnWLcqWOVujSU\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
-    "size": 12125,
-    "path": "../public/_nuxt/entry.3c4ebcd6.css"
-  },
-  "/_nuxt/entry.b8960ef9.js": {
+  "/_nuxt/about.88a044e5.js": {
     "type": "application/javascript",
-    "etag": "\"303b8-T9x5YN0K5EWkHW6bnISB/gatwyI\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
-    "size": 197560,
-    "path": "../public/_nuxt/entry.b8960ef9.js"
+    "etag": "\"a8-ZfLmmJspNtVnLCtQvl9tP1daj3Y\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 168,
+    "path": "../public/_nuxt/about.88a044e5.js"
   },
-  "/_nuxt/error-404.3f229cac.js": {
+  "/_nuxt/entry.2fb44f89.js": {
     "type": "application/javascript",
-    "etag": "\"1962-qHB+3rQbN6VkjKKrj52XBu/Hmkc\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
-    "size": 6498,
-    "path": "../public/_nuxt/error-404.3f229cac.js"
+    "etag": "\"2248e-oYavZ00c+ur9hAFtv5LLzxcMA08\"",
+    "mtime": "2023-09-22T21:58:15.650Z",
+    "size": 140430,
+    "path": "../public/_nuxt/entry.2fb44f89.js"
   },
   "/_nuxt/error-404.7fc72018.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"e2e-iNt1cqPQ0WDudfCTZVQd31BeRGs\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
+    "mtime": "2023-09-22T21:58:15.649Z",
     "size": 3630,
     "path": "../public/_nuxt/error-404.7fc72018.css"
   },
-  "/_nuxt/error-500.73dd5070.js": {
+  "/_nuxt/error-404.99d7c1eb.js": {
     "type": "application/javascript",
-    "etag": "\"756-VFORm9uxWqu9Wkg+KicUS9SFIy4\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
-    "size": 1878,
-    "path": "../public/_nuxt/error-500.73dd5070.js"
+    "etag": "\"19ab-l/1aeVvGsYB9L730qgmJUmqUWGs\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 6571,
+    "path": "../public/_nuxt/error-404.99d7c1eb.js"
+  },
+  "/_nuxt/error-500.a656cf06.js": {
+    "type": "application/javascript",
+    "etag": "\"77e-xjXP4BnZ6+bmS75j/4C8vaXJS8Y\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 1918,
+    "path": "../public/_nuxt/error-500.a656cf06.js"
   },
   "/_nuxt/error-500.c5df6088.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"79e-ByRo+49BgcevWdRjJy3CMx2IA5k\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
+    "mtime": "2023-09-22T21:58:15.649Z",
     "size": 1950,
     "path": "../public/_nuxt/error-500.c5df6088.css"
   },
-  "/_nuxt/error-component.dd8605ad.js": {
+  "/_nuxt/index.3c4ebcd6.css": {
+    "type": "text/css; charset=utf-8",
+    "etag": "\"2f5d-IUbnwWIn6QsALxMnWLcqWOVujSU\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 12125,
+    "path": "../public/_nuxt/index.3c4ebcd6.css"
+  },
+  "/_nuxt/index.b082190a.js": {
     "type": "application/javascript",
-    "etag": "\"45e-uj3W+bhwJ8hua2UY4njAXPGzd6Q\"",
-    "mtime": "2023-09-22T20:57:46.400Z",
-    "size": 1118,
-    "path": "../public/_nuxt/error-component.dd8605ad.js"
+    "etag": "\"175b8-fmSG0+OZPIbKhAu/e1c+meW9B6M\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 95672,
+    "path": "../public/_nuxt/index.b082190a.js"
+  },
+  "/_nuxt/vue.f36acd1f.7327c135.js": {
+    "type": "application/javascript",
+    "etag": "\"186-0FIt2jfHVnyXNPy04v52hyI/N98\"",
+    "mtime": "2023-09-22T21:58:15.649Z",
+    "size": 390,
+    "path": "../public/_nuxt/vue.f36acd1f.7327c135.js"
   }
 };
 
@@ -5507,5 +5521,5 @@ trapUnhandledNodeErrors();
 setupGracefulShutdown(listener, nitroApp);
 const nodeServer = {};
 
-export { $fetch as $, send as a, setResponseStatus as b, setResponseHeaders as c, dr as d, eventHandler as e, useRuntimeConfig as f, getResponseStatus as g, getQuery as h, createError$1 as i, joinURL as j, getRouteRules as k, hasProtocol as l, createHooks as m, sanitizeStatusCode as n, isEqual as o, parseURL as p, stringifyParsedURL as q, stringifyQuery as r, setResponseHeader as s, parseQuery as t, useNitroApp as u, withTrailingSlash as v, wn as w, withoutTrailingSlash as x, nodeServer as y };
+export { $fetch as $, send as a, setResponseStatus as b, setResponseHeaders as c, dr as d, eventHandler as e, useRuntimeConfig as f, getResponseStatus as g, getQuery as h, createError$1 as i, joinURL as j, getRouteRules as k, getResponseStatusText as l, withQuery as m, hasProtocol as n, isScriptProtocol as o, parseURL as p, sanitizeStatusCode as q, createHooks as r, setResponseHeader as s, defu as t, useNitroApp as u, parseQuery as v, wn as w, withTrailingSlash as x, withoutTrailingSlash as y, nodeServer as z };
 //# sourceMappingURL=node-server.mjs.map
