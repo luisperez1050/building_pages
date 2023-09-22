@@ -4879,56 +4879,56 @@ const assets = {
   "/favicon.ico": {
     "type": "image/vnd.microsoft.icon",
     "etag": "\"10be-n8egyE9tcb7sKGr/pYCaQ4uWqxI\"",
-    "mtime": "2023-09-22T20:41:14.738Z",
+    "mtime": "2023-09-22T20:57:46.401Z",
     "size": 4286,
     "path": "../public/favicon.ico"
   },
   "/_nuxt/entry.3c4ebcd6.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"2f5d-IUbnwWIn6QsALxMnWLcqWOVujSU\"",
-    "mtime": "2023-09-22T20:41:14.736Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 12125,
     "path": "../public/_nuxt/entry.3c4ebcd6.css"
   },
   "/_nuxt/entry.b8960ef9.js": {
     "type": "application/javascript",
     "etag": "\"303b8-T9x5YN0K5EWkHW6bnISB/gatwyI\"",
-    "mtime": "2023-09-22T20:41:14.737Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 197560,
     "path": "../public/_nuxt/entry.b8960ef9.js"
   },
   "/_nuxt/error-404.3f229cac.js": {
     "type": "application/javascript",
     "etag": "\"1962-qHB+3rQbN6VkjKKrj52XBu/Hmkc\"",
-    "mtime": "2023-09-22T20:41:14.736Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 6498,
     "path": "../public/_nuxt/error-404.3f229cac.js"
   },
   "/_nuxt/error-404.7fc72018.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"e2e-iNt1cqPQ0WDudfCTZVQd31BeRGs\"",
-    "mtime": "2023-09-22T20:41:14.737Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 3630,
     "path": "../public/_nuxt/error-404.7fc72018.css"
   },
   "/_nuxt/error-500.73dd5070.js": {
     "type": "application/javascript",
     "etag": "\"756-VFORm9uxWqu9Wkg+KicUS9SFIy4\"",
-    "mtime": "2023-09-22T20:41:14.737Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 1878,
     "path": "../public/_nuxt/error-500.73dd5070.js"
   },
   "/_nuxt/error-500.c5df6088.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"79e-ByRo+49BgcevWdRjJy3CMx2IA5k\"",
-    "mtime": "2023-09-22T20:41:14.737Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 1950,
     "path": "../public/_nuxt/error-500.c5df6088.css"
   },
   "/_nuxt/error-component.dd8605ad.js": {
     "type": "application/javascript",
     "etag": "\"45e-uj3W+bhwJ8hua2UY4njAXPGzd6Q\"",
-    "mtime": "2023-09-22T20:41:14.737Z",
+    "mtime": "2023-09-22T20:57:46.400Z",
     "size": 1118,
     "path": "../public/_nuxt/error-component.dd8605ad.js"
   }
