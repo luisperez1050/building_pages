@@ -13,6 +13,7 @@ import 'node:fs';
 import 'node:path';
 import 'fs';
 import 'path';
+import '@unhead/ssr';
 import 'unhead';
 import '@unhead/shared';
 import 'vue/server-renderer';
@@ -34,7 +35,7 @@ const islandRenderer = /* @__PURE__ */ defineComponent({
     if (!component) {
       throw createError({
         statusCode: 404,
-        statusMessage: `Island component not found: ${props.context.name}`
+        statusMessage: `Island component not found: ${JSON.stringify(component)}`
       });
     }
     return () => createVNode(component || "span", { ...props.context.props, "nuxt-ssr-component-uid": "" });
@@ -42,4 +43,4 @@ const islandRenderer = /* @__PURE__ */ defineComponent({
 });
 
 export { islandRenderer as default };
-//# sourceMappingURL=island-renderer-bc39a2f4.mjs.map
+//# sourceMappingURL=island-renderer-c85e3d29.mjs.map
