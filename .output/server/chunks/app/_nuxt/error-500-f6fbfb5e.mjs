@@ -14,6 +14,7 @@ import 'node:fs';
 import 'node:path';
 import 'fs';
 import 'path';
+import '@unhead/ssr';
 import 'unhead';
 import '@unhead/shared';
 
@@ -67,4 +68,4 @@ _sfc_main.setup = (props, ctx) => {
 const error500 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-df79c84d"]]);
 
 export { error500 as default };
-//# sourceMappingURL=error-500-57cb52a6.mjs.map
+//# sourceMappingURL=error-500-f6fbfb5e.mjs.map
