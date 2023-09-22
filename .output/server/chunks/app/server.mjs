@@ -735,7 +735,7 @@ const __nuxt_component_0 = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId
 const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_NuxtWelcome = __nuxt_component_0;
-  _push(`<div${ssrRenderAttrs(_attrs)}>`);
+  _push(`<div${ssrRenderAttrs(_attrs)}><p>Hello there</p>`);
   _push(ssrRenderComponent(_component_NuxtWelcome, null, null, _parent));
   _push(`</div>`);
 }
