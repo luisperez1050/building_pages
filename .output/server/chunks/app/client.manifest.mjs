@@ -1,35 +1,57 @@
 const client_manifest = {
+  "_vue.f36acd1f.7327c135.js": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "vue.f36acd1f.7327c135.js",
+    "imports": [
+      "node_modules/nuxt/dist/app/entry.js"
+    ]
+  },
   "node_modules/@nuxt/ui-templates/dist/templates/error-404.css": {
     "resourceType": "style",
+    "prefetch": true,
+    "preload": true,
     "file": "error-404.7fc72018.css",
     "src": "node_modules/@nuxt/ui-templates/dist/templates/error-404.css"
   },
   "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": {
     "resourceType": "script",
     "module": true,
+    "prefetch": true,
+    "preload": true,
     "css": [],
-    "file": "error-404.3f229cac.js",
+    "file": "error-404.99d7c1eb.js",
     "imports": [
-      "node_modules/nuxt/dist/app/entry.js"
+      "node_modules/nuxt/dist/app/entry.js",
+      "_vue.f36acd1f.7327c135.js"
     ],
     "isDynamicEntry": true,
     "src": "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue"
   },
   "error-404.7fc72018.css": {
     "file": "error-404.7fc72018.css",
-    "resourceType": "style"
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
   },
   "node_modules/@nuxt/ui-templates/dist/templates/error-500.css": {
     "resourceType": "style",
+    "prefetch": true,
+    "preload": true,
     "file": "error-500.c5df6088.css",
     "src": "node_modules/@nuxt/ui-templates/dist/templates/error-500.css"
   },
   "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue": {
     "resourceType": "script",
     "module": true,
+    "prefetch": true,
+    "preload": true,
     "css": [],
-    "file": "error-500.73dd5070.js",
+    "file": "error-500.a656cf06.js",
     "imports": [
+      "_vue.f36acd1f.7327c135.js",
       "node_modules/nuxt/dist/app/entry.js"
     ],
     "isDynamicEntry": true,
@@ -37,43 +59,61 @@ const client_manifest = {
   },
   "error-500.c5df6088.css": {
     "file": "error-500.c5df6088.css",
-    "resourceType": "style"
-  },
-  "node_modules/nuxt/dist/app/entry.css": {
     "resourceType": "style",
-    "file": "entry.3c4ebcd6.css",
-    "src": "node_modules/nuxt/dist/app/entry.css"
+    "prefetch": true,
+    "preload": true
   },
   "node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
-    "css": [
-      "entry.3c4ebcd6.css"
-    ],
-    "dynamicImports": [
-      "virtual:nuxt:/Users/luisperez/code/building_pages/.nuxt/error-component.mjs"
-    ],
-    "file": "entry.b8960ef9.js",
-    "isEntry": true,
-    "src": "node_modules/nuxt/dist/app/entry.js"
-  },
-  "entry.3c4ebcd6.css": {
-    "file": "entry.3c4ebcd6.css",
-    "resourceType": "style"
-  },
-  "virtual:nuxt:/Users/luisperez/code/building_pages/.nuxt/error-component.mjs": {
-    "resourceType": "script",
-    "module": true,
+    "prefetch": true,
+    "preload": true,
     "dynamicImports": [
       "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue",
       "node_modules/@nuxt/ui-templates/dist/templates/error-500.vue"
     ],
-    "file": "error-component.dd8605ad.js",
+    "file": "entry.2fb44f89.js",
+    "isEntry": true,
+    "src": "node_modules/nuxt/dist/app/entry.js"
+  },
+  "pages/about.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "file": "about.88a044e5.js",
     "imports": [
       "node_modules/nuxt/dist/app/entry.js"
     ],
     "isDynamicEntry": true,
-    "src": "virtual:nuxt:/Users/luisperez/code/building_pages/.nuxt/error-component.mjs"
+    "src": "pages/about.vue"
+  },
+  "pages/index.css": {
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true,
+    "file": "index.3c4ebcd6.css",
+    "src": "pages/index.css"
+  },
+  "pages/index.vue": {
+    "resourceType": "script",
+    "module": true,
+    "prefetch": true,
+    "preload": true,
+    "css": [],
+    "file": "index.b082190a.js",
+    "imports": [
+      "_vue.f36acd1f.7327c135.js",
+      "node_modules/nuxt/dist/app/entry.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "pages/index.vue"
+  },
+  "index.3c4ebcd6.css": {
+    "file": "index.3c4ebcd6.css",
+    "resourceType": "style",
+    "prefetch": true,
+    "preload": true
   }
 };
 
