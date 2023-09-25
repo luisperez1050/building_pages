@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ClientOnly>
-      <quill-editor theme="snow" />
-    </ClientOnly>
+    hello
   </div>
 </template>

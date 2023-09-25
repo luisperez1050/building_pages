@@ -2,54 +2,52 @@
   <div class="editor-wrapper">
     <ClientOnly>
       <quill-editor
-        theme="snow"
+        v-model:content="htmlEditor"
         :toolbar="toolBarOptions"
+        :syntax="true"
+        :options="{ height: 150 }"
+        :modules="modules"
+        contentType="html"
+        theme="snow"
       />
     </ClientOnly>
     <p>Quill</p>
     <div class="grid-wrapper">
     </div>
-    <div class="display-html" v-html="'quilleditorHtml'"></div>
-    {{def}}
+    <div class="display-html" v-html="htmlEditor"></div>
 
     <pre v-if="invalid">{{ htmlErrors }}</pre>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-// import htmlEditButton from "quill-html-edit-button";
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
 
 export default {
   name: 'app',
-  // components: {
-  //   CodeMirror,
-  // },
-  // setup() {
-  //   const modules = {
-  //     name: 'htmlEditButton',  
-  //     module: htmlEditButton, 
-  //   }
-  //   const test = ref(false);
+  async setup() {
+    if (!process.server) {
+      const { htmlEditButton } = await import("quill-html-edit-button");
+      const modules = {
+        name: 'htmlEditButton',  
+        module: htmlEditButton, 
+      };
+      console.log('-=-=-=-=-=', htmlEditButton);
 
-  //   return { modules, setup, test, showCodeMirror };
-  // },
+      return { modules };
+    }
+  },
   data() {
     return {
-      // quilleditorHtml: localStorage.getItem('quillStored'),
-      // codemirrorHtml: localStorage.getItem('codemirrorStored'),
-      // cmHtml: localStorage.getItem('cmStored'),
+      htmlEditor: null,
       invalid: false,
       htmlErrors: null,
-      def: 'test',
     };
   },
+  mounted() {
+    this.htmlEditor = localStorage.getItem('quillStored')
+  },
   updated() {
-    // localStorage.setItem('quillStored', this.quilleditorHtml ?? '');
-    // localStorage.setItem('codemirrorStored', this.codemirrorHtml ?? '');
-    // localStorage.setItem('cmStored', this.cmHtml ?? '');
+    localStorage.setItem('quillStored', this.htmlEditor ?? '');
   },
   computed: {
     toolBarOptions() {
